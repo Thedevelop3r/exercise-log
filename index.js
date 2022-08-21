@@ -15,7 +15,7 @@ app.use(Logger);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use("/public", express.static(`${process.cwd()}/public`));
+app.use(express.static(`${process.cwd()}/public`));
 
 // --- Middlewares --- //
 // --- database connection --- //
