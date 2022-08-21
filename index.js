@@ -129,8 +129,11 @@ app.get("/api/users/:_id/logs", async (req, res) => {
     .select("-createdBy")
     .select("-__v")
     .select("-_id");
-  let logArray = [];
-  logArray.push(_userLogs);
+  // --- Setting Up User Date --- //
+  _userLogs.forEach(element =>{
+    element.date = String(element.date);
+  });
+
   // --- Generating Response --- //
   let _response = {
     username: _user.username,
