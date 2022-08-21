@@ -105,15 +105,15 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
     _userLog.date = date;
   }
   await _userLog.save();
-  let response = {
-    username: _user.username,
-    _id: _user._id,
-    description: _userLog.description,
-    duration: _userLog.duration,
-    date: _userLog.date,
-  };
-  // console.log(response);
-  res.json(response);
+  _user.description = description;
+  _user.duration = duration;
+  if(date){
+    _user.date = date;
+  }else{
+    let newDate = new Date();
+    _user.date = newDate.toDateString();
+  }
+  res.json(_user);
 });
 // --- Get User All Excercise Logs || Route Api --- //
 app.get("/api/users/:_id/logs", async (req, res) => {
