@@ -88,16 +88,16 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
     return res.send("please provide description and duration");
   }
   // --- User Validation --- //
-  let user = await USER.findById(_id);
-  console.log(typeof(user));
-  if (!user) {
+  let userfound = await USER.findById(_id);
+  console.log(typeof userfound);
+  if (!userfound) {
     // --- No User Found --- //
     console.log(`No User Found! with id:${_id}`);
     return res.send("No user found!");
   }
   // --- User Found Creating Log --- //
   let _userLog = LOG({
-    createdBy: user._id,
+    createdBy: userfound._id,
     description: description,
     duration: Number(duration),
   });
@@ -105,28 +105,25 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
     _userLog.date = date;
   }
   await _userLog.save();
-  
-  user["description"] = {description};
-  user["duration"] = {duration};
-  console.log(user);
-  if (date) {
-    user["date"] = date;
-  } else {
-    let newDate = new Date();
-    user["date"] = newDate.toDateString();
-  }
+
+  // if (date) {
+  //   user["date"] = date;
+  // } else {
+  //   let newDate = new Date();
+  //   user["date"] = newDate.toDateString();
+  // }
   // --- New User Respose --- //
 
-  let newUserRespose = {
-    username: user.username,
+  let user = {
+    username: userfound.username,
     description: _userLog.description,
     duration: _userLog.duration,
     date: _userLog.date,
-    _id: user._id,
+    _id: userfound._id,
   };
 
-  console.log(newUserRespose);
-  res.json({ user: newUserRespose });
+  console.log(user);
+  res.json(user);
 });
 
 // --- Get User All Excercise Logs || Route Api --- //
