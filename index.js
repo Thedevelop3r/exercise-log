@@ -106,8 +106,9 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
   }
   await _userLog.save();
   
-  user["description"] = description;
-  user["duration"] = duration;
+  user["description"] = {description};
+  user["duration"] = {duration};
+  console.log(user);
   if (date) {
     user["date"] = date;
   } else {
@@ -117,15 +118,12 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
   // --- New User Respose --- //
 
   let newUserRespose = {
-    _id: user._id,
     username: user.username,
     description: _userLog.description,
     duration: _userLog.duration,
-    date: _userLog.date
+    date: _userLog.date,
+    _id: user._id,
   };
-
-
-
 
   console.log(newUserRespose);
   res.json(newUserRespose);
