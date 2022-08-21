@@ -15,7 +15,7 @@ app.use(Logger);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use(express.static("./public"));
+app.use(express.static(process.cwd()+"./public"));
 
 // --- Middlewares --- //
 // --- database connection --- //
@@ -39,7 +39,7 @@ connection.on("open", (data) => {
 });
 // --- Home Route Api * Index.html File --- //
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/views/index.html");
+  res.sendFile(process.cwd() + __dirname + "/views/index.html");
 });
 
 // --- Get All Users * Array Result --- //
