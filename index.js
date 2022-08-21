@@ -88,16 +88,16 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
     return res.send("please provide description and duration");
   }
   // --- User Validation --- //
-  const _user = await USER.findById(_id);
-  console.log(_user);
-  if (!_user) {
+  let user = await USER.findById(_id);
+  console.log(user);
+  if (!user) {
     // --- No User Found --- //
     console.log(`No User Found! with id:${_id}`);
     return res.send("No user found!");
   }
   // --- User Found Creating Log --- //
   let _userLog = LOG({
-    createdBy: _user._id,
+    createdBy: user._id,
     description: description,
     duration: Number(duration),
   });
@@ -105,16 +105,32 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
     _userLog.date = date;
   }
   await _userLog.save();
-  _user.description = description;
-  _user.duration = duration;
-  if(date){
-    _user.date = date;
-  }else{
+  
+  user["description"] = description;
+  user["duration"] = duration;
+  if (date) {
+    user["date"] = date;
+  } else {
     let newDate = new Date();
-    _user.date = newDate.toDateString();
+    user["date"] = newDate.toDateString();
   }
-  res.json(_user);
+  // --- New User Respose --- //
+
+  let newUserRespose = {
+    _id: user._id,
+    username: user.username,
+    description: _userLog.description,
+    duration: _userLog.duration,
+    date: _userLog.date
+  };
+
+
+
+
+  console.log(newUserRespose);
+  res.json(newUserRespose);
 });
+
 // --- Get User All Excercise Logs || Route Api --- //
 app.get("/api/users/:_id/logs", async (req, res) => {
   // --- Get User ID From req.params (:_id) --- //
@@ -130,7 +146,7 @@ app.get("/api/users/:_id/logs", async (req, res) => {
     .select("-__v")
     .select("-_id");
   // --- Setting Up User Date --- //
-  _userLogs.forEach(element =>{
+  _userLogs.forEach((element) => {
     element.date = String(element.date);
   });
 
