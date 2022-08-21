@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
 
 // --- Get All Users * Array Result --- //
 app.get("/api/users", async (req, res) => {
-  const users = await USER.find();
+  const users = await USER.find().select("-__v");
   res.json(users);
 });
 // --- Create New User Route Api --- //
@@ -72,7 +72,7 @@ app.post("/api/users", async (req, res) => {
     _id: _user._id,
   });
 });
-
+// --- User Excercise Create | Post Data --- //
 app.post("/api/users/:_id/exercises", async (req, res) => {
   console.log(req.body);
   // --- User id To Insert Data--- //
