@@ -89,7 +89,7 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
   }
   // --- User Validation --- //
   let user = await USER.findById(_id);
-  console.log(user);
+  console.log(typeof(user));
   if (!user) {
     // --- No User Found --- //
     console.log(`No User Found! with id:${_id}`);
@@ -126,7 +126,7 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
   };
 
   console.log(newUserRespose);
-  res.json(newUserRespose);
+  res.json({ user: newUserRespose });
 });
 
 // --- Get User All Excercise Logs || Route Api --- //
