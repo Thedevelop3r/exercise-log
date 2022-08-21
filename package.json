@@ -22,5 +22,8 @@
 	"keywords": [
 		"node",
 		"express"
-	]
+	],
+	"engine": {
+		"node": "16.x"
+	}
 }
