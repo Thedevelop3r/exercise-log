@@ -131,6 +131,10 @@ app.get("/api/users/:_id/logs", async (req, res) => {
     return res.send("No User Found");
   }
 
+  _user.log.forEach(record=>{
+    record.date = new Date(record.date).toDateString();
+  });
+
   res.json({
     username: _user.username,
     count: _user.log.length,
