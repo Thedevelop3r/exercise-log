@@ -18,6 +18,8 @@ app.use(express.static(`${process.cwd()}/public`));
 
 // --- Middlewares --- //
 // --- database connection --- //
+// --- MONGO_URI came from process.env.MONGOURI --- //
+
 async function ConnectDB() {
   return await mongoose.connect(MONGO_URI, {
     dbName: "db",
@@ -25,15 +27,18 @@ async function ConnectDB() {
     serverSelectionTimeoutMS: 5000,
   });
 }
-
+// --- Mongoose Connection Events Listning --- //
 const connection = mongoose.connection;
 connection.on("error", (error) => {
+  // On Connecting Error
   console.log(error);
 });
 connection.on("connecting", (data) => {
+  // On Connection Attempt
   console.log("Connecting to mongoose database......");
 });
 connection.on("open", (data) => {
+  // On Database connected and open to use
   console.log("Connection to mongoose database established successfully.");
 });
 // --- Home Route Api * Index.html File --- //

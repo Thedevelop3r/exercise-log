@@ -1,8 +1,7 @@
 // --- Connection details --- //
-
 async function Logger(req, res, next) {
-  let date = new Date();
-
+  let date = new Date(); // date of request
+  // tracks request Ip, Path, and Date of request
   console.log(
     "User> IP:" +
       req.ip +
@@ -11,7 +10,6 @@ async function Logger(req, res, next) {
       " Date: " +
       date.toDateString()
   );
-  next();
+  next(); // hand-over to next middleware
 }
-
-module.exports = Logger;
+module.exports = Logger; // exporting function
