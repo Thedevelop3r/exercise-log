@@ -2,15 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const Logger = require("./controller/logger");
-const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const { USER, LOG } = require("./models/tracker");
 // --- Setting Up PORT && MONGOOSE CONFIG --- //
 const MONGO_URI = process.env.MONGO_URI;
 const PORT = process.env.PORT;
+const app = express();
 app.use(Logger);
-~app.use(cors());
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
