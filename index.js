@@ -5,8 +5,7 @@ const Logger = require("./controller/logger");
 const app = express();
 const cors = require("cors");
 require("dotenv").config();
-const { USER, LOG } = require("./models/TrackerDatabaseModel");
-const { response } = require("express");
+const { USER, LOG } = require("./models/tracker");
 // --- Setting Up PORT && MONGOOSE CONFIG --- //
 const MONGO_URI = process.env.MONGO_URI;
 const PORT = process.env.PORT;
@@ -90,48 +89,34 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
   if (!description || !duration) {
     return res.send("please provide description and duration");
   }
+
+  let _userLog = new LOG({
+    description: description,
+    duration: Number(duration),
+  });
+
+  if (!date) {
+    _userLog.date = new Date().toISOString().substring(0, 10);
+  }else{
+    _userLog.date = date;
+  }
+
   // --- User Validation --- //
-  let userfound = await USER.findById(_id);
-  console.log(typeof userfound);
+  let userfound = await USER.findByIdAndUpdate(_id, {$push:{
+    log:_userLog
+  }},{new:true});
   if (!userfound) {
     // --- No User Found --- //
     console.log(`No User Found! with id:${_id}`);
     return res.send("No user found!");
   }
-  // --- User Found Creating Log --- //
-  let _userLog = LOG({
-    createdBy: userfound._id,
-    description: description,
-    duration: Number(duration),
-  });
-  if (date) {
-    _userLog.date = date;
-  }
-  await _userLog.save();
-
-  // if (date) {
-  //   user["date"] = date;
-  // } else {
-  //   let newDate = new Date();
-  //   user["date"] = newDate.toDateString();
-  // }
-  // --- New User Respose --- //
-
-  // let user = {
-  //   username: userfound.username,
-  //   description: _userLog.description,
-  //   duration: _userLog.duration,
-  //   date: _userLog.date,
-  //   _id: userfound._id,
-  // };
-
-  // console.log(user);
+  await userfound.save();
   res.json({
-    username: userfound.username,
-    description: _userLog.description,
-    duration: _userLog.duration,
-    date: _userLog.date,
-    _id: userfound._id,
+    "_id" : userfound._id,
+    "username" : userfound.username,
+    "date": new Date(_userLog.date).toDateString(),
+    "description" : _userLog.description,
+    "duration" : _userLog.duration
   });
 });
 
@@ -145,24 +130,35 @@ app.get("/api/users/:_id/logs", async (req, res) => {
     console.log("No User Found!");
     return res.send("No User Found");
   }
-  let _userLogs = await LOG.find({ createdBy: _user._id })
-    .select("-createdBy")
-    .select("-__v")
-    .select("-_id");
-  // --- Setting Up User Date --- //
-  _userLogs.forEach((element) => {
-    element.date = String(element.date);
+
+  res.json({
+    username: _user.username,
+    count: _user.log.length,
+    _id: _user._id,
+    log: _user.log
   });
 
-  // --- Generating Response --- //
-  let _response = {
-    username: _user.username,
-    _id: _user._id,
-    count: _userLogs.length,
-    log: _userLogs,
-  };
 
-  res.json(_response);
+
+
+  // let _userLogs = await LOG.find({ createdBy: _user._id })
+  //   .select("-createdBy")
+  //   .select("-__v")
+  //   .select("-_id");
+  // // --- Setting Up User Date --- //
+  // _userLogs.forEach((element) => {
+  //   element.date = String(element.date);
+  // });
+
+  // --- Generating Response --- //
+  // let _response = {
+  //   username: _user.username,
+  //   _id: _user._id,
+  //   count: _userLogs.length,
+  //   log: _userLogs,
+  // };
+
+  // res.json(_response);
 });
 
 // --- Server Starts Here --- //
