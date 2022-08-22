@@ -72,7 +72,10 @@ app.post("/api/users", async (req, res) => {
     _id: _user._id,
   });
 });
-// --- User Excercise Create | Post Data --- //
+// --- User Excercise Create | Post Data | --- //
+/*The response returned from 
+POST /api/users/:_id/exercises will be the
+ user object with the exercise fields added. */
 app.post("/api/users/:_id/exercises", async (req, res) => {
   console.log(req.body);
   // --- User id To Insert Data--- //
@@ -114,16 +117,22 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
   // }
   // --- New User Respose --- //
 
-  let user = {
+  // let user = {
+  //   username: userfound.username,
+  //   description: _userLog.description,
+  //   duration: _userLog.duration,
+  //   date: _userLog.date,
+  //   _id: userfound._id,
+  // };
+
+  console.log(user);
+  res.json({
     username: userfound.username,
     description: _userLog.description,
     duration: _userLog.duration,
     date: _userLog.date,
     _id: userfound._id,
-  };
-
-  console.log(user);
-  res.json(user);
+  });
 });
 
 // --- Get User All Excercise Logs || Route Api --- //
@@ -160,7 +169,7 @@ app.get("/api/users/:_id/logs", async (req, res) => {
 
 async function START_SERVER() {
   await ConnectDB();
-  //--- Server Listening --- //
+  // --- Server Listening --- //
   const listener = await app.listen(process.env.PORT || 3000, () => {
     console.log("Your app is listening on port " + listener.address().port);
   });
