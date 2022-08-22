@@ -125,7 +125,7 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
   //   _id: userfound._id,
   // };
 
-  console.log(user);
+  // console.log(user);
   res.json({
     username: userfound.username,
     description: _userLog.description,
