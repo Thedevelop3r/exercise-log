@@ -101,28 +101,34 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
   // --- If user didnt provided date! seting up new date --- //
   if (!date) {
     _userLog.date = new Date().toISOString().substring(0, 10);
-  }else{
+  } else {
     _userLog.date = date;
   }
 
   // --- User Validation & Updating Log Array --- //
-  let userfound = await USER.findByIdAndUpdate(_id, {$push:{
-    log:_userLog
-  }},{new:true});
+  let userfound = await USER.findByIdAndUpdate(
+    _id,
+    {
+      $push: {
+        log: _userLog,
+      },
+    },
+    { new: true }
+  );
   if (!userfound) {
     // --- No User Found --- //
     console.log(`No User Found! with id:${_id}`);
     return res.send("No user found!");
   }
-    // --- Saving user after Inserting new Log Array --- //
+  // --- Saving user after Inserting new Log Array --- //
   await userfound.save();
   // --- Generating manual response --- //
   res.json({
-    "_id" : userfound._id,
-    "username" : userfound.username,
-    "date": new Date(_userLog.date).toDateString(),
-    "description" : _userLog.description,
-    "duration" : _userLog.duration
+    _id: userfound._id,
+    username: userfound.username,
+    date: new Date(_userLog.date).toDateString(),
+    description: _userLog.description,
+    duration: _userLog.duration,
   });
 });
 
@@ -140,12 +146,12 @@ app.get("/api/users/:_id/logs", async (req, res) => {
   }
 
   // --- converting each date value of log array into DateString --- //
-  _user.log.forEach(record=>{
+  _user.log.forEach((record) => {
     record.date = new Date(record.date).toDateString();
   });
 
   // --- If user provided query params --- //
-  if(req.query.from || req.query.to){
+  if (req.query.from || req.query.to) {
     let fromDate = new Date(0); // max from date
     let toDate = new Date(); // max to date
     if (req.query.from) {
@@ -174,7 +180,7 @@ app.get("/api/users/:_id/logs", async (req, res) => {
     username: _user.username,
     count: _user.log.length,
     _id: _user._id,
-    log: _user.log
+    log: _user.log,
   });
 });
 

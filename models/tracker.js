@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-// Log schema || is a userSchema Child 
+// Log schema || is a userSchema Child
 const LogSchema = new mongoose.Schema({
   // 2 properties are required
   description: {
@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     required: [true, "please provide a username!"],
   },
   // uses $push option to push into this array
-  log:[LogSchema],
+  log: [LogSchema],
 });
 const LOG = mongoose.model("Logs", LogSchema); // Log model for Parent schema
 const USER = mongoose.model("Users", UserSchema); // User model is Parent schema
