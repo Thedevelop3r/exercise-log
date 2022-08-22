@@ -72,13 +72,11 @@ app.post("/api/users", async (req, res) => {
   });
 });
 // --- User Excercise Create | Post Data | --- //
-/*The response returned from 
-POST /api/users/:_id/exercises will be the
- user object with the exercise fields added. */
 app.post("/api/users/:_id/exercises", async (req, res) => {
   console.log(req.body);
   // --- User id To Insert Data--- //
   const data = req.body;
+  // --- _id data comes from req.params --- //
   const { _id } = req.params;
   const description = data?.description;
   const duration = data?.duration;
@@ -89,19 +87,20 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
   if (!description || !duration) {
     return res.send("please provide description and duration");
   }
-
+  // --- Data Validation Passed --- //
+  // --- Creating a Log Object --- //
   let _userLog = new LOG({
     description: description,
     duration: Number(duration),
   });
-
+  // --- If user didnt provided date! seting up new date --- //
   if (!date) {
     _userLog.date = new Date().toISOString().substring(0, 10);
   }else{
     _userLog.date = date;
   }
 
-  // --- User Validation --- //
+  // --- User Validation & Updating Log Array --- //
   let userfound = await USER.findByIdAndUpdate(_id, {$push:{
     log:_userLog
   }},{new:true});
@@ -110,7 +109,9 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
     console.log(`No User Found! with id:${_id}`);
     return res.send("No user found!");
   }
+    // --- Saving user after Inserting new Log Array --- //
   await userfound.save();
+  // --- Generating manual response --- //
   res.json({
     "_id" : userfound._id,
     "username" : userfound.username,
@@ -125,48 +126,54 @@ app.get("/api/users/:_id/logs", async (req, res) => {
   // --- Get User ID From req.params (:_id) --- //
   const { _id } = req.params;
   console.log(_id);
+  // --- Finding User by Id --- //
   let _user = await USER.findById(_id);
+  // --- If No User Found --- //
   if (!_user) {
     console.log("No User Found!");
     return res.send("No User Found");
   }
 
+  // --- converting each date value of log array into DateString --- //
   _user.log.forEach(record=>{
     record.date = new Date(record.date).toDateString();
   });
 
+  // --- If user provided query params --- //
+  if(req.query.from || req.query.to){
+    let fromDate = new Date(0); // max from date
+    let toDate = new Date(); // max to date
+    if (req.query.from) {
+      fromDate = new Date(req.query.from); // if (from) provided then setting up new date object with it
+    }
+    if (req.query.to) {
+      toDate = new Date(req.query.to); // if (to) provided then setting up new date object with it
+    }
+    // --- converting dates to unix-timelapse --- //
+    fromDate = fromDate.getTime();
+    toDate = toDate.getTime();
+    // --- Comparing Dates with Filters & returning||saving --- //
+    _user.log = _user.log.filter((record) => {
+      let unixLogDate = new Date(record.date).getTime();
+      return unixLogDate >= fromDate && unixLogDate <= toDate;
+    });
+  }
+  // --- If Limit is provided --- //
+  if (req.query.limit) {
+    let { limit } = req.query;
+    _user.log = _user.log.slice(0, limit);
+  }
+
+  // --- Sending Back The Response --- //
   res.json({
     username: _user.username,
     count: _user.log.length,
     _id: _user._id,
     log: _user.log
   });
-
-
-
-
-  // let _userLogs = await LOG.find({ createdBy: _user._id })
-  //   .select("-createdBy")
-  //   .select("-__v")
-  //   .select("-_id");
-  // // --- Setting Up User Date --- //
-  // _userLogs.forEach((element) => {
-  //   element.date = String(element.date);
-  // });
-
-  // --- Generating Response --- //
-  // let _response = {
-  //   username: _user.username,
-  //   _id: _user._id,
-  //   count: _userLogs.length,
-  //   log: _userLogs,
-  // };
-
-  // res.json(_response);
 });
 
 // --- Server Starts Here --- //
-
 async function START_SERVER() {
   await ConnectDB();
   // --- Server Listening --- //
