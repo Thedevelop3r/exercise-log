@@ -9,7 +9,7 @@
 
 html,
 body {
-  width: 100%;
+  max-width: 980px;
 }
 
 .container {
@@ -121,14 +121,7 @@ input[type="text"]:focus {
 }
 
 }
-@media screen and (min-width: 1200px) {
-      *{
-        font-size: 20px;
-    }
-  .container {
-    flex-direction: row;
-  }
-}
+
 
 @media screen and (max-width: 375px) {
    body{
