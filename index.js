@@ -193,4 +193,8 @@ async function START_SERVER() {
   });
 }
 //--- Starting Server && Mongoo Connection --- //
-START_SERVER();
+// START_SERVER();
+
+// test
+
+app.listen(4000);

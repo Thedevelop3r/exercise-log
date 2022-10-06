@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  width: 100%;
 }
 
 body {
@@ -56,4 +57,12 @@ code {
   font-size: 1.2em;
   background-color: #FFFEC4;
   padding: 2px;
+}
+
+/* Container styling */
+
+.container{
+  display: flex;
+  flex-direction: column;
+  width: 60%;
 }

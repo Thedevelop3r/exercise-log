@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 18px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  /* margin: 2rem 5% 0 5%; */
+  justify-content: center;
+  border: 0 solid rgb(121, 121, 222);
+  border-top-right-radius: 2%;
+  border-top-left-radius: 2%;
+  border-bottom-right-radius: 2%;
+  border-bottom-left-radius: 2%;
+  background-color: #d8e9a8;
+  height: 100vh;
+}
+.title {
+  font-size: 3rem;
+  font-weight: 600;
+  padding: 1rem 1rem 1rem 1rem;
+  background-color: #191a19;
+  color: #4e9f3d;
+  text-align: center;
+  justify-content: center;
+  justify-items: center;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+/* form designing */
+
+.form1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding: 1rem;
+  width: 40%;
+}
+.form1 > h3 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.form1 > p {
+  margin-bottom: 0.3rem;
+}
+.formp {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  justify-content: space-around;
+}
+
+/* target all inputs */
+input {
+  outline: none;
+  border: none;
+  height: 3rem;
+}
+
+input[type="submit"] {
+  color: #414141;
+  padding: 1rem;
+}
+input[type="submit"]:hover {
+  background-color: #4e9f3d;
+  color: #fff;
+}
+input[type="text"] {
+  margin-bottom: 1rem;
+  background-color: #d8e9a8;
+}
+input[type="text"]:focus {
+  border: 1px solid rgb(121, 143, 217);
+  background-color: #d5e4ab;
+}
+.footer {
+  text-align: center;
+  padding: 70px;
+  background-color: #d5e4ab;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #191A19;
+  color: #fff;
+}
+.author{
+    text-decoration: none;
+    color: #4e9f3d;
+}
+
+
+/* Media queries */
+@media screen and (min-width: 375px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+    margin: 0;
+  }
+  .form1 {
+    width: 90%;
+    text-align: center;
+    align-items: center;
+  }
+  input[type="text"]::placeholder{
+    text-align: center;
+  }
+  input[type="submit"] {
+  width: 40%;
+}
+
+}
+@media screen and (min-width: 1200px) {
+      *{
+        font-size: 20px;
+    }
+  .container {
+    flex-direction: row;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+   body{
+    background-color: blue;
+   }
+}
+@media screen and (max-width: 700px) {
+   body{
+    background-color: red;
+   }
+}
+@media screen and (max-width: 375px) {
+   body{
+    background-color: green;
+   }
+}
