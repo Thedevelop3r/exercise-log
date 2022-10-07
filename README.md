@@ -1,3 +1,17 @@
 # Exercise Tracker
 
-This is the boilerplate for the Exercise Tracker project. Instructions for building your project can be found at https://www.freecodecamp.org/learn/apis-and-microservices/apis-and-microservices-projects/exercise-tracker
+update 2.0 changelog:
+
+1:Mobile Responsive, Redesigned, Restructured.
+2:Logger Fix.
+3:Minor Bug Fix
+4:Index.js > Added more instruction at the end.
+
+This version is deployment ready version.
+To test or use on localhost Comment out the Listener function at the end of index.js file and uncomment the statement underneath it.
+
+This was the boilerplate for the Exercise Tracker project.
+It has been completely modified to pass the freeCodeCamp Certification Test moreover improved.
+
+To get the orignal boilerplate of the project visit:
+https://www.freecodecamp.org/learn/apis-and-microservices/apis-and-microservices-projects/exercise-tracker

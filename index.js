@@ -186,15 +186,19 @@ app.get("/api/users/:_id/logs", async (req, res) => {
 
 // --- Server Starts Here --- //
 async function START_SERVER() {
-  await ConnectDB();
+  // await ConnectDB();
   // --- Server Listening --- //
   const listener = await app.listen(process.env.PORT || 3000, () => {
     console.log("Your app is listening on port " + listener.address().port);
   });
 }
-//--- Starting Server && Mongoo Connection --- //
-// START_SERVER();
+//--- Starting Server && Mongoo Connection --- Deployment(heroku) has Passed. //
+START_SERVER();
 
-// test
+//for local testing start this server instead.
+/*
+  app.listen(4500,()=>{
+  console.log("Your app is listening on port " + 4500);
+  });
 
-app.listen(4000);
+*/

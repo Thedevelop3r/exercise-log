@@ -4,19 +4,26 @@
     <title>Exercise Tracker | freeCodeCamp</title>
     <link rel="shortcut icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon.ico"  type="image/x-icon" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
-    <!-- <link href="style.css" rel="stylesheet" type="text/css" /> -->
-    <link rel="stylesheet" href="newstyle.css">
+    <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
     <div class="container">
-      <h1 class="title" >Exercise Tracker</h1>
-      <form class="form1" action="/api/users" method="post">
+
+      <header>
+        <h1 class="title" >Exercise Tracker</h1>
+      </header>
+      
+
+      <div class="form-container">
+
+        <form class="form1" action="/api/users" method="post">
         <h3>Create a New User</h3>
         <p><code>POST /api/users</code></p>
         <input id="uname" type="text" name="username" placeholder="Type Your Username" />
         <input type="submit" value="Submit" />
       </form>
+
       <form class="form1" id="exercise-form" method="post">
         <h3>Add exercises</h3>
         <p><code>POST /api/users/:_id/exercises</code></p>
@@ -26,7 +33,10 @@
         <input id="date" type="text" name="date" placeholder="date (yyyy-mm-dd)" />
         <input type="submit" value="Submit" />
       </form>
-      <div class="form1">
+
+      </div>
+   
+       <div class="form1 form-detail">
         <h3>API Formates</h3>
         <p>
         <strong>GET user's exercise log: </strong>
@@ -35,14 +45,26 @@
       <p ><strong>[ ]</strong> = optional</p>
       <p><strong>from, to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = number</p>
       </div>
-      <div class="footer">
-        <p> <h4>
-          by 
+
+
+
+      
+
+       <div class="footer">
+         <h4>
+         Front-end + Backend<br><br>
           <a class="author" href="https://github.com/Thedevelop3r/exercise-log">Bilal Arain</a>
           </h4>
-        </p>
+       
       </div>
-    </div>
+
+
+
+    </div>   <!--Container Div End-->
+
+
+
+
     <script>
       const exerciseForm = document.getElementById("exercise-form");
 
